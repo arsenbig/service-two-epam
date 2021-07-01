@@ -1,0 +1,73 @@
+# GLOBAL CONFIGURATION
+
+spring:
+  application.name: service-two
+  datasource:
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  jackson.serializationindent_output: true
+
+info:
+  component: Service-Two
+  artifact: service-two
+  version: <app version>
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+management:
+  contextPath: /actuator
+
+server:
+  contextPath: /
+  port: 8084
+
+---
+spring:
+  profiles: default
+  autoconfigure.exclude:
+    - org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration
+  cloud:
+    consul:
+      host: <consul FQDN/IP>
+      port: 8500
+      discovery:
+        hostName: <application host FQDN/IP>
+        instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+        healthCheckPath: ${management.contextPath}/health
+        healthCheckInterval: 15s
+    loadbalancer.ribbon.enabled: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://<MySQL DB FQDN/IP>/<DB name>?createDatabaseIfNotExist=true
+    username: <DB username>
+    password: <DB password>
+  jpa:
+    hibernate:
+      ddl-auto: create
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+  rabbitmq:
+    host: <RabbitMQ FQDN/IP>
+    port: 5672
+    username: <RabbitMQ username>
+    password: <RabbitMQ password>
+    virtualHost: /
+
+logstash:
+  servers: <Logstash FQDN/IP>:5000
+
+logging:
+  file: service-two-application.log
+  pattern:
+    file: "%d %-5level [%thread] %logger{0}: %msg%n"
+  level:
+    org.springframework.web: WARN
+    com.mudigal.two: DEBUG
+    org.hibernate: WARN
