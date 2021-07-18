@@ -8,9 +8,6 @@ A simple application which generates UUID every minute and updates the same in M
 
 Below are the architecture of the application in default environments:
 
-#### Default Environment
-![alt tag](./doc/architecture/service-two%20(docker).png?raw=true)   
-
 ### Build
 
 #### prerequisites
@@ -18,7 +15,6 @@ Below are the architecture of the application in default environments:
 
 #### configure the application
 - Update `src/main/resources/application.yml` file according to your environment.
-> Mandatory fields are presented in `< ABC >` format.
 
 #### build with maven
 - Execute `mvn clean package` while in the project root directory (the directory that contains the `pom.xml` file) to build the package. 
@@ -37,8 +33,6 @@ Below are the architecture of the application in default environments:
 > Please, note, that ideally the service should be started by SystemD
 
 - check if your application is up and running via http://<application host FQDN/IP>:8084/swagger-ui.html
-
-![alt tag](./doc/tools/swagger.png?raw=true)   
 
 ### Technology
 
@@ -60,7 +54,3 @@ Microservices sample project uses a number of open source projects to work prope
 * [Java] - Programming
 * [Maven] - Build
 * [Git] - Version control
-
-### Help
-
-Feel free to reach `EPAM AM Cloud&DevOps Department`
